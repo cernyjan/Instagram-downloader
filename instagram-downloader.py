@@ -5,7 +5,7 @@
 name: Instagram-downloader -- Downloader for Instagram photos in full resolution 
 autor: Černý Jan
 email: cerny.jan@hotmail.com
-version: 0.1
+version: 0.2
 license: viz. LICENSE
 """
 
@@ -114,9 +114,9 @@ def main():
 	MAX_ID = 0
 	
 	print "\r"
-	print "*************************************************************"
-	print "Instagram downloader v0.1 \t author: Černý Jan \t 2016"
-	print "*************************************************************"
+	print "******************************************************************"
+	print "Instagram downloader v0.2 \t author: Černý Jan \t 2016-2017"
+	print "******************************************************************"
 	print "\r"
 
 	#checking parameters when you run
