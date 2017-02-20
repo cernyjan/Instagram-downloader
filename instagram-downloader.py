@@ -58,8 +58,17 @@ def get_media_json(url):
 
 
 def get_file_url(url):
+	#orig: old - https://scontent-frt3-1.cdninstagram.com/t51.2885-15/s320x320/e35/15875894_1508741892486869_7973405638820626432_n.jpg?ig_cache_key=MTQyNjU4NDM4ODgxNjIzNjIzMQ%3D%3D.2 or new - https://scontent-frt3-1.cdninstagram.com/t51.2885-15/s320x320/e35/c135.0.809.809/14723725_1842050342674900_2393076900256808960_n.jpg?ig_cache_key=MTQ1MDAyNTg3MDg3Mjk3Njc3MQ%3D%3D.2.c
 	file_url = url.split('?')[0]
 	file_url = file_url.replace("/s320x320", "")
+	file_url = file_url.split('/')
+	if len(file_url) == 6:
+		file_url = file_url[0] + "//" + file_url[2] + "/" + file_url[3] + "/" + file_url[4] + "/" + file_url[5]
+	elif len(file_url) == 7:
+		file_url = file_url[0] + "//" + file_url[2] + "/" + file_url[3] + "/" + file_url[4] + "/" + file_url[6] 
+	else:
+		exit("Sorry, unexpected error occurred")
+	#new: https://scontent-frt3-1.cdninstagram.com/t51.2885-15/e35/14723725_1842050342674900_2393076900256808960_n.jpg
 	return file_url
 
 
