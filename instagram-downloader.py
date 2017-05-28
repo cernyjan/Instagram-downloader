@@ -116,7 +116,7 @@ def main():
 	
 	print "\r"
 	print "******************************************************************"
-	print "Instagram downloader v0.2 \t author: Černý Jan \t 2016-2017"
+	print "Instagram downloader v0.3 \t author: Černý Jan \t 2016-2017"
 	print "******************************************************************"
 	print "\r"
 
