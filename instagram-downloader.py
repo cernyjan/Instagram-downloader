@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # čžřě+áýčíáý+í
 
@@ -5,7 +6,7 @@
 name: Instagram-downloader -- Downloader for Instagram photos in full resolution 
 autor: Černý Jan
 email: cerny.jan@hotmail.com
-version: 0.2
+version: 0.3
 license: viz. LICENSE
 """
 
@@ -16,7 +17,7 @@ import datetime
 import os
 from sys import exit
 import os.path
-from sys import argv
+import timeit
 
 
 def test_connection():
@@ -119,26 +120,7 @@ def main():
 	print "******************************************************************"
 	print "\r"
 
-	#checking parameters when you run
-	if len(argv) < 2:
-		print "application has to run with some parameters !!"
-		print "for help put '-help' parameter"
-		print "and try again"
-		print "\n"
-		exit()
-
-	#help
-	if argv[1] == "-help":
-		print "HELP"
-		print "===="
-		print "example of use: python instagram-downloader.py user001"
-		print "\n"
-		exit()
-		
-	if len(argv) < 2:
-		err = True
-	else:
-		user = argv[1]
+	user = raw_input('user account: ').strip()
 		
 	if not err:
 		#internet connection test
@@ -152,6 +134,7 @@ def main():
 		
 		url = "https://www.instagram.com/" + user + "/media/"
 		
+		start_time = timeit.default_timer()
 		while loop:		
 			data = get_media_json(url)
 			items_count = len(data['items'])
@@ -172,9 +155,9 @@ def main():
 
 			url = "https://www.instagram.com/" + user + "/media/?max_id=" + MAX_ID
 
-
+		elapsed = round((timeit.default_timer() - start_time), 2)	
 		path = user
-		print "\n\nTotal: " + str(len([f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))])) + " photo(s)"
+		print "\n\nTotal: " + str(len([f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))])) + " photo(s) " + "in " + str(elapsed) + " seconds"
 		exit("--successfully finished--")
 	else:
 		print "application has to run with some parameters !!"
