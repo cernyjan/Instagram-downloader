@@ -6,7 +6,7 @@
 name: Instagram-downloader -- Downloader for Instagram photos in full resolution 
 autor: Černý Jan
 email: cerny.jan@hotmail.com
-version: 0.3
+version: 0.4
 license: viz. LICENSE
 """
 
@@ -65,7 +65,7 @@ def account_exists(user):
 def main():
 	print "\r"
 	print "******************************************************************"
-	print "Instagram downloader v0.3 \t author: Černý Jan \t 2016-2017"
+	print "Instagram downloader v0.4 \t author: Černý Jan \t 2016-2017"
 	print "******************************************************************"
 	
 	user = raw_input('user account: ').strip()
