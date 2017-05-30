@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python -tt
 # -*- coding: utf-8 -*-
 # čžřě+áýčíáý+í
 
@@ -10,15 +10,17 @@ version: 0.3
 license: viz. LICENSE
 """
 
+from builder import Builder
+from worker import Worker
+
 import platform
 import ctypes
 from time import sleep
-import urllib2, json
+import urllib2
+import json
 from sys import exit
 import os.path
 import timeit
-import builder
-import worker
 
 
 def test_connection():
@@ -34,7 +36,7 @@ def test_connection():
 			con = urllib2.urlopen("https://www.instagram.com")
 			con.read()
 			loop = False
-			print ". . . connected . . ."
+			print "internet connection OK"
 			return True
 		except IOError:
 			print "failed connection of internet"
@@ -65,8 +67,7 @@ def main():
 	print "******************************************************************"
 	print "Instagram downloader v0.3 \t author: Černý Jan \t 2016-2017"
 	print "******************************************************************"
-	print "\r"
-
+	
 	user = raw_input('user account: ').strip()
 
 	#internet connection test
@@ -85,27 +86,29 @@ def main():
 	
 	start_time = timeit.default_timer()
 
-	ib = builder.Builder(user)
+	ib = Builder(user)
 	ib.set_images()
+
+	print "found " + str(ib.get_number_of_images()) + " photo(s)"
 	
-	w = worker.Worker(ib.get_images(), user)
+	w = Worker(ib.get_images(), user)
 	w.work()
 
 	elapsed = round((timeit.default_timer() - start_time), 2)
 
 	path = user
-	print "\n\nTotal: " + str(len([f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))])) + " photo(s) " + "in " + str(elapsed) + " seconds"
+	print "\nTotal: " + str(len([f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))])) + " photo(s) " + "in " + str(elapsed) + " seconds"
 	exit("--successfully finished--")
 
 			
 if __name__ == '__main__':
 	#changing the name of a running process for a better overview of the means utilized
-        if platform.system() == "Linux":
-                LIBC = ctypes.CDLL('libc.so.6')
-                PROC_NAME = "000-Instagram-downloader"
-                LIBC.prctl(15, '%s\0' %PROC_NAME, 0, 0, 0)
-	#a delay of 1s
-	#sleep(1)
+	if platform.system() == "Linux":
+		LIBC = ctypes.CDLL('libc.so.6')
+		PROC_NAME = "000-Instagram-downloader"
+		LIBC.prctl(15, '%s\0' %PROC_NAME, 0, 0, 0)
+		#a delay of 1s
+		sleep(1)
 	
 	#main thread
 	main()
