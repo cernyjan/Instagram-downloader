@@ -10,6 +10,7 @@ version: 0.3
 license: viz. LICENSE
 """
 
+import platform
 import ctypes
 from time import sleep
 import urllib2, json
@@ -99,9 +100,10 @@ def main():
 			
 if __name__ == '__main__':
 	#changing the name of a running process for a better overview of the means utilized
-	LIBC = ctypes.CDLL('libc.so.6')
-	PROC_NAME = "000-Instagram-downloader"
-	LIBC.prctl(15, '%s\0' %PROC_NAME, 0, 0, 0)
+        if platform.system() == "Linux":
+                LIBC = ctypes.CDLL('libc.so.6')
+                PROC_NAME = "000-Instagram-downloader"
+                LIBC.prctl(15, '%s\0' %PROC_NAME, 0, 0, 0)
 	#a delay of 1s
 	#sleep(1)
 	

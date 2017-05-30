@@ -28,7 +28,7 @@ class Worker(object):
 			os.makedirs(folder)
 
 		def save_file(self, folder, url, created_time):
-			file_name = datetime.datetime.fromtimestamp(int(created_time)).strftime('%Y-%m-%d %H:%M:%S') + ".jpg"
+			file_name = datetime.datetime.fromtimestamp(int(created_time)).strftime('%Y-%m-%d_%H-%M-%S') + ".jpg"
 			u = urllib2.urlopen(url)
 			f = open(folder + "/" + file_name, 'wb')
 			meta = u.info()
