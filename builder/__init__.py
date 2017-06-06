@@ -52,6 +52,7 @@ class Builder(object):
 			else:
 				raise
 		#TODO: add prevent of socket.error: [Errno 104] Connection reset by peer
+		#TODO: add prevent of socket.error: [Errno 10054] An existing connection was forcibly closed by the remote host
 		return json.loads(f.read())
 
 	def set_last_id(self, last_id):
