@@ -15,10 +15,12 @@ import time
 
 
 class Worker(object):
-		def __init__(self, images, folder):
+		def __init__(self, images, folder, debug):
 			self.images = images
 			self.folder = folder
-			print "worker OK"
+			self.debug = debug
+			if self.debug:
+				print "worker OK"
 
 		def validate_type(self, var, varType):
 			if isinstance(var, varType):
@@ -51,12 +53,14 @@ class Worker(object):
 
 				file_size_dl += len(buffer)
 				f.write(buffer)
-				status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
-				status = status + chr(8)*(len(status)+1)
-				sys.stdout.write(status)
-				sys.stdout.flush()
+				if self.debug:
+					status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
+					status = status + chr(8)*(len(status)+1)
+					sys.stdout.write(status)
+					sys.stdout.flush()
 				#time.sleep(.05)
-			print "%s Bytes: %s OK" % (file_name, file_size)
+			if self.debug:
+				print "%s Bytes: %s OK" % (file_name, file_size)
 
 			f.close()
 

@@ -13,13 +13,15 @@ import time
 
 
 class Builder(object):
-	def __init__(self, user):
+	def __init__(self, user, debug):
 		self.user = user
 		self.images = []
 		self.number_of_images = -1
 		self.last_id = ""
 		self.more_available = False
-		print "builder OK"
+		self.debug = debug
+		if self.debug:
+			print "builder OK"
 
 	def validate_type(self, var, varType):
 		if isinstance(var, varType):
@@ -67,7 +69,8 @@ class Builder(object):
 	def set_images(self):
 		url = "https://www.instagram.com/" + self.user + "/media/"
 		loop = True
-		print "processing ",
+		if self.debug:
+			print "processing ",
 		while loop:  
 			number_of_images = self.get_number_of_images() 
 			data = self.get_media_json(url)
@@ -92,8 +95,9 @@ class Builder(object):
 				image = [file_url, created_time]
 				if not any(created_time in i for i in self.get_images()):
 					self.images.append(image)
-					sys.stdout.write(".")
-					sys.stdout.flush()
+					if self.debug:
+						sys.stdout.write(".")
+						sys.stdout.flush()
 					#time.sleep(.05)
 				items_index = items_index + 1
 
@@ -103,8 +107,9 @@ class Builder(object):
 
 			if number_of_images == self.get_number_of_images():
 				loop = False
-		sys.stdout.write("\n")
-		sys.stdout.flush()
+		if self.debug:
+			sys.stdout.write("\n")
+			sys.stdout.flush()
 				
 	def get_images(self):
 		return self.images

@@ -21,6 +21,7 @@ import json
 from sys import exit
 import os.path
 import timeit
+from sys import argv
 
 
 def test_connection():
@@ -36,11 +37,13 @@ def test_connection():
 			con = urllib2.urlopen("https://www.instagram.com")
 			con.read()
 			loop = False
-			print "internet connection OK"
+			if debug:
+				print "internet connection OK"
 			return True
 		except IOError:
-			print "failed connection of internet"
-			print "repeat attempt\n"
+			if debug:
+				print "failed connection of internet"
+				print "repeat attempt\n"
 			if cycle > 0:
 				cycle -= 1
 				sleep(10)
@@ -63,6 +66,12 @@ def account_exists(user):
 
 
 def main():
+	global debug
+	if (len(argv) == 2) and argv[1] == "--debug":
+		debug = True
+	else:
+		debug = False
+	
 	print "\r"
 	print "******************************************************************"
 	print "Instagram downloader v0.4 \t author: Černý Jan \t 2016-2017"
@@ -86,12 +95,13 @@ def main():
 	
 	start_time = timeit.default_timer()
 
-	ib = Builder(user)
+	ib = Builder(user, debug)
 	ib.set_images()
 
-	print "found " + str(ib.get_number_of_images()) + " photo(s)"
+	if debug:
+		print "found " + str(ib.get_number_of_images()) + " photo(s)"
 	
-	w = Worker(ib.get_images(), user)
+	w = Worker(ib.get_images(), user, debug)
 	w.work()
 
 	elapsed = round((timeit.default_timer() - start_time), 2)
@@ -102,6 +112,7 @@ def main():
 
 			
 if __name__ == '__main__':
+	debug = False
 	#changing the name of a running process for a better overview of the means utilized
 	if platform.system() == "Linux":
 		LIBC = ctypes.CDLL('libc.so.6')
